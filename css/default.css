@@ -13,12 +13,13 @@ header {
 
 nav {
   text-align: right;
+  color: blue;
 }
 
 nav a {
   font-size: 1.8rem;
   font-weight: bold;
-  color: black;
+  color: blue;
   text-decoration: none;
   text-transform: uppercase;
 }

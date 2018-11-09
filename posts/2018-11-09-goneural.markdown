@@ -1,0 +1,5 @@
+---
+title: Learning go and testing a naive approach
+---
+
+I decided to test out a 
