@@ -1,5 +1,6 @@
 ---
 title: Learning go and testing a naive approach
+tags: golang, neural network
 ---
 
-I decided to test out a 
+I will write more about my experinence with go, building a neural network from scratch and trying to beat a plain vanilla network with what I call a darwin net - when I have the time and feel inspirated sometime. In the mean time have a look at [my github](https://github.com/pegesund/neuralnet_nontrad)
