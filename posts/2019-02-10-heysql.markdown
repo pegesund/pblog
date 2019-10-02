@@ -95,3 +95,7 @@ Running tests is very integrated in the process and testing is followed up by ni
 This was really a wow-experience! I found Pharo a very good fit for solid and fast development.
 
 More reading? [I liked this one.](https://hackernoon.com/back-to-the-future-with-smalltalk-57c68fab583a)
+
+Screenshot from working space:
+
+![Some code, code browser, playground, inspector, integrated git](/images/PharoScreenshot.1.png)
