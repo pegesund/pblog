@@ -1,0 +1,97 @@
+---
+title: Learning to fly the smalltalk balloon 
+tags: smalltalk pharo
+---
+
+
+![Picture borrowed from cover page, Byte magazine](/images/balloon.png){ width=50% }
+
+<br/>
+<br/>
+<br/>
+
+I have spent some time learning Smalltalk and the [Pharo implementation](https://pharo.org) of this language.
+
+Sometimes I pick a task, so it feels like I have something meaningful to do while learning, and this time I decided to write my own database orm.
+
+## Reason behind HeySql
+
+The older I have got, the more I have started to dislike database orms. They are often hard to migrate, they are hard to debug, and they put not needed pressure on the db with insane long joins for doing pretty simple stuff (oh, yes - JPA - I am talking about you!).
+
+On the other hand one very often do have something like models in the code. Product, customer, purchase and so on - and the boilerplate to get this stuff up and running can be quite boring and time consuming.
+
+HeySql is an attempt to find the right balance between an orm and doing things in sql.
+
+## Heysql features
+
+- Only a couple of config lines from code, no xml/json/annotaions
+- You have the full power of sql, no strange dsl
+- Sql-queries will available as code methods, with parameteres and available in autocomplete. I like prefixing all queries for the person-class with person.. to easy look up methods for the class.
+- This should make the code more readable and be a good starting point for reusing queries.
+- It should be pretty easy to use all the features of the database, ex. json, gis, freetext search and so on - which normally not are available in orms.
+- As we use server side compiled statemens it sould be pretty fast and also safe when it comes to hijacking.
+
+## Implementation
+
+The implementation is based on some very nice Smalltalk features.
+
+I use reflecion for moving data from/to the objects/database.
+
+I also compile methods for the model classes from code. In smalltalk you can actually add methods to classes and/or methods very easy. It is a very nice feature while developing libraries like this (though it not a good fit for many projects!) - and I find it even more powerful than macros which often are used in other lanuages.
+
+Making a cat meow from the cat-class *in runtime* is as easy as this:
+
+```smalltalk
+aString := 'Cat 
+  compile: 'makeSound
+  "Make Cat object make sound."
+  Transcript show: ''Meow!''.'
+  classified: ''actions''.'
+
+self class compile: aString classified: 'animalSounds'
+```
+
+You are free to look/comment/download/contribute to [my code](https://github.com/pegesund/heysql).
+
+## Smalltalk
+
+So what do I think about Pharo Smalltalk?
+
+Smalltalk has had a hard life. Many of the language featuers has been ["stolen"](https://en.wikipedia.org/wiki/Smalltalk) from other languages and the language could have been better visible on the language radar.
+
+There are probably many resons for this, my though it that the commercial vendors have targeted customers with much resources, like banks and the us defence - but the open source implementations has been lacking behind.
+
+But using the Pharo implementation it seems this now is history. I got kind of blown away (look at the ballon above!) by this language. Pharo has relly many nice features, like a fantastic programming environment with.
+
+In smalltalk the environemnt is tightly coupled with the way you code and the feeling of navigaing, editing code, testing code and debugging is really amazing. It got this "I have spent most of my time in vim or in lagging and little helpful java-based-ideas. What have a done to my life?" - feeling.
+
+The first learning curve is quite steep (for a console based guy as my) as I did not grasp what to do in the very nice an estetic gui world that opened when I started, but after this most stuff is very plain.
+
+### The language as is
+
+The language in itself has some very nice features and despite its long history felt really modern.
+
+- Everything is an object. This makes navigating and looking up documentation very easy.
+- It supports higher order functions and has very nice methods for dealing with collections
+- It even has [continuations](https://en.wikipedia.org/wiki/Continuation) for moving forward/backward in time - a feature which for example gives very fast green threading
+- It has a build in jit - I did some small benchmarks using a web server and postgres and it is really nice and fast
+- The syntax is really easy to learn
+- Reflection is very accessible
+- The compiler and hole programming environment is reachable from code
+
+Some small details I did not like was the return operator and I think some classes could have been better designed for making them composable - I also like the dot for composing better than using parentheses. 
+
+
+### The programming environment
+
+The way errors and debuggins is treated is worth a chapter by itself. I have not a good relation to debuggers (yes, I know it is me!) and most of the time I tend to debug by printl, but debugging in Pharo was so slick that I was conviced right away. Error messages are very precice and shown directly in the gui. Comments and documentation is a part of the coding process and the compiler kept improving my code automagically.
+
+Testing out parts of the code in the playground (you can have many) which is a kind of repl makes developing really fast. All objects can be inspected in runtime using the very powerfull inspect-tools in the gui. Using the inspector you can dump object values and follow how the objects connect in a very good view.
+
+I did actually not miss strong typing at any point, which kind of surprised my - my tests did catch up most of my mistakes in this areas and the compiler did often find my weak spots.
+
+Running tests is very integrated in the process and testing is followed up by nice functionality in the edtor/browser-environment (the brower is not a web brower, but a code browser). 
+
+This was really a wow-experience! I found Pharo a very good fit for solid and fast development.
+
+More reading? [I liked this one.](https://hackernoon.com/back-to-the-future-with-smalltalk-57c68fab583a)
