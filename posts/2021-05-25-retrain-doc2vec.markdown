@@ -9,11 +9,13 @@ But in in some areas I think the paragraph embeddings are still pretty interesti
 
 One challenge in Doc2Vec has been that it does not support retraining. This is a drawback, in our case we would like to start off with a pretrained word vocabulary based on wikipedia and then add domain specific documents on top of this. Retraining with all the material at once takes many non-needed resourses. First of all the training with the wiki-content takes several days on a large computer - and we also end up with all the wiki embeddings taking lots (!) of ram in the end model.
 
-Therefore we have experimented with retraining, based on an existing vocabulary. This has already been "fixed" once as a part of a phd - codebase and paper is found [here:] (https://github.com/redyandri/doc2vec-master). The problem is that this branch was based on the 3.2 version of Gensim and Gensim has moved to version 4 in the meanwhile, with lots of fixes and improvements. In the meantime the problem has appeard regularly on the gensim mailing lists, but without any solution we could use. 
+Therefore we have experimented with retraining, based on an existing vocabulary. This has already been "fixed" once as a part of a phd - codebase and paper is found [here](https://github.com/redyandri/doc2vec-master). The problem is that this branch was based on the 3.2 version of Gensim and Gensim has moved to version 4 in the meanwhile, with lots of fixes and improvements. In the meantime the problem has appeard regularly on the gensim mailing lists, but without any solution we could use. 
 
 Our attempt looks promsing and I have not found any issues with it so far, but it is takes some extra code. It is also not well integrated into Gensim as we have to run the cleanups outside the Gensim-codebase (maybe we transforms this to complete patch later). This is tested on Gensim 4.1 and might (probably) not work on later releases.
 
-Code is below, if anyone else runs into the same problem. It reads in a pretrained wiki-model and then adds a new docs on top of this.
+Code is below, if anyone else runs into the same problem. It reads in a pretrained wiki-model and then adds a new docs on top of this. It verifies that the new doc was placed at a relevent position in the vector space and that the new word introduced in the second training round also looks sane.
+
+The crucial lines for retraining are below the "Create temporay doc2vec" and "Clean variables.." comments.
 
 
 ```python
@@ -75,14 +77,8 @@ for docName, docIndex in model2.dv.key_to_index.items():
       deleteDocs.append(docName) 
 
 print("Deleting docs: ", len(deleteDocs))
-to_delete = []
-i = 0
 for docName in deleteDocs:
-    index = model2.dv.key_to_index[docName]
     del model2.dv.key_to_index[docName]
-    if index > model2.corpus_count - 1:
-         to_delete.append(i)
-    i += 1
 
 print("Fixed")
 
