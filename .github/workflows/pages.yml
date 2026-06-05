@@ -20,12 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # GHC 8.4.4 (resolver lts-12.17) needs the old ncurses/gmp runtime libs
-      - name: Install system libs for GHC 8.4.4
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libtinfo5 libgmp-dev
-
       - uses: haskell-actions/setup@v2
         with:
           enable-stack: true
